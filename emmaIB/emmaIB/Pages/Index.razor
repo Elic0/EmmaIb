@@ -1,0 +1,48 @@
+﻿@page "/"
+
+<PageTitle>home</PageTitle>
+
+<h3>Emma Ib</h3>
+
+<ul>
+    @foreach (var item in Todos)
+    {
+        <li>
+            <strong>Navn:</strong>  @item.Name - @item.Age <br />
+            <strong>Profession:</strong> @item.Profession <br />
+            <strong>Land:</strong> @item.Country <br />
+            <strong>By:</strong> @item.City <br />
+        </li>
+    }
+</ul>
+
+<input @bind="Name" @bind:event="oninput" placeholder="Navn" />
+<input @bind="Age" @bind:event="oninput" type="number" placeholder="Alder" />
+<br />
+<input @bind="Profession" @bind:event="oninput" placeholder="Profession" />
+<br />
+<input @bind="Country" @bind:event="oninput" placeholder="Country" />
+<br />
+<input @bind="City" @bind:event="oninput" placeholder="City" />
+<br />
+<button @onclick="Save">Save</button>
+
+@code {
+    private List<TodoItem> Todos = new();
+    public string Name { get; set; }
+    public int? Age;
+    public string Profession { get; set; }
+    public string Country { get; set; }
+    public string City { get; set; }
+
+    private void Save()
+    {
+        if (string.IsNullOrEmpty(Name)) return;
+        Todos.Add(new TodoItem(Name, Age.GetValueOrDefault(), Profession, Country, City));
+        Name = string.Empty;
+        Age = null;
+        Profession = string.Empty;
+        Country = string.Empty;
+        City = string.Empty;
+    }
+}
